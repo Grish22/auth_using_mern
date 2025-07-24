@@ -86,12 +86,12 @@ exports.postsignup =[
         const { firstName, lastName, email, password } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array().map(err => err.msg) });
+            return res.status(422).json({ message: errors.array().map(err => err.msg) });
         }
         else{
             User.findOne({ email: email })
                 .then(existingUser => {
-                if (existingUser)  return res.status(422).json({ message: "User already exists" });
+                if (existingUser)  return res.status(422).json({ message: ["Email already exists" ]});
                 
                 return bcrypt.hash(password, 12)
                     .then(hashedPassword => {

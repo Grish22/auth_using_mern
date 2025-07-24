@@ -4,11 +4,11 @@ import UseContext from "../context/usercontest.jsx";
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
-    const [firstName, setFirstName] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [confirmPassword, setConfirmPassword] = React.useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] =useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const { setUserfunc } = UseContext();
     const navigate = useNavigate();
     const handleSubmit = (event) => {
@@ -32,12 +32,14 @@ function Signup() {
                 const result = await response.json();
                 if (response.ok) {
                     alert(result.message);
-                    console.log(result);
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    localStorage.setItem('isLoggedIn', 'true');
                     setUserfunc(result.user);
-                    navigate("/login");
+                    navigate("/login"); 
                 }
                 else {
-                    alert("Signup failed: " + result);
+                    console.log(result);
+                    alert("Signup failed: " + result.message.join(", "));
                 }
                 console.log(result);
             } catch (error) {

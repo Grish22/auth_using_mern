@@ -23,7 +23,11 @@ function Login() {
           if (response.ok) {
             alert("Login successful!");
             console.log(data);
+            
+            localStorage.setItem('user', JSON.stringify(data.user));
+            localStorage.setItem('isLoggedIn', 'true');
             setIsLoggedInfunc(true);
+            setUserfunc(data.user);
             navigate("/demo");
 
           } else {
