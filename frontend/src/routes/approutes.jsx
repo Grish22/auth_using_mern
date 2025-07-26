@@ -4,23 +4,39 @@ import Home from "../pages/homes";
 import Login from "../pages/login";
 import Signup from "../pages/signup";
 import Layout from "./layouts";
-import Logout from "../pages/logout";
-import Demo from "../pages/demo";
+import CreatedBlog from "../pages/createdblog";
+import Hostblog from "../pages/hostblog";
+import Viewblog  from "../pages/viewblog";
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Description from "../pages/description"
 const router=createBrowserRouter(
         createRoutesFromElements(<Route path="/" element={<  Layout />}>
             <Route path="" element={< Home />} />
+            
             <Route path="login" element={< Login />} />
             <Route path="signup" element={< Signup />} />
-            <Route path="logout" element={
+            <Route path="host/create" element={
                 <ProtectedRoute>
-                    <Logout />
+                    <CreatedBlog />
                 </ProtectedRoute>
+
             } />
-            <Route path="demo" element={
+            <Route path="host/all" element={
                 <ProtectedRoute>
-                    <Demo />
+                    < Hostblog/>
+                </ProtectedRoute>
+
+            } />
+            <Route path="user/all" element={
+                <ProtectedRoute>
+                    <Viewblog />
+                </ProtectedRoute>
+
+            } />
+             <Route path="/user/all/:id" element={
+                <ProtectedRoute>
+                    <Description />
                 </ProtectedRoute>
             } />
         </Route>)

@@ -22,17 +22,18 @@ exports.postLogin = async(req, res) => {
         _id: user._id,
         email: user.email,
         firstName: user.firstName,
-        lastName: user.lastName
+        lastName: user.lastName,
+        userType: user.userType
     };
-    console.log('Session data:', req.session);
     await req.session.save();
-    console.log('Session saved with ID:', req.session.id);
     return res.status(200).json({
         message: "Login successful",
         user: {
+            id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
+            email: user.email,
+            userType: user.userType
         }
     });
 }
@@ -82,8 +83,9 @@ exports.postsignup =[
         }
         return true
     }),
+
     (req, res) => {
-        const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, email, password, userType } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ message: errors.array().map(err => err.msg) });
@@ -100,13 +102,16 @@ exports.postsignup =[
                             lastName: lastName,
                             email: email,
                             password: hashedPassword,
+                            userType: userType  
                     });
                 return user.save().then(() => {
                         return res.status(200).json({ message: "signup successful" ,
                         user: {
+                            id: user._id,
                             firstName: user.firstName,
                             lastName: user.lastName,
-                            email: user.email
+                            email: user.email,
+                            userType: user.userType
                         }
                     });
                 })

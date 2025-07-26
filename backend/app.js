@@ -1,5 +1,7 @@
 const express = require ('express');
 const authRouter=require("./routes/authroutes");
+const userRouter = require("./routes/userroutes");
+const hostRouter = require("./routes/hostroutes");
 const { default: mongoose } = require('mongoose');
 const bodyParser = require('body-parser');
 const session=require("express-session");
@@ -30,6 +32,8 @@ app.use(session({
 }))
 app.use(express.json());
 app.use('/auth',authRouter);
+app.use('/user', userRouter);
+app.use('/host', hostRouter);
 const PORT = 5001;
 mongoose.connect(MONGO_DB_URL).then(() => {
   console.log('Connected to Mongo');
