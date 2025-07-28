@@ -1,7 +1,7 @@
 import React from "react";
 import {useEffect} from "react";
 import { useState } from "react"; 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import UseContext from "../context/usercontest";
 import { useLocation } from "react-router-dom";
 function CreatedBlog() {
@@ -10,6 +10,7 @@ function CreatedBlog() {
     const blogDataNew = location.state?.blogData || null;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [file,setFile]=useState(null);
     useEffect(() => {
     if (isEdit && blogDataNew!=null) {
       setTitle(blogDataNew.title);
@@ -21,22 +22,19 @@ function CreatedBlog() {
 
     const handleCreateBlog = (event) => {
         event.preventDefault();
-        const blogData = {
-            title: title,
-            content: content,
-            author:user.id
-        };
+        const  formData= new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('author',user.id)
+        formData.append('document',file)
         const method= isEdit? "PUT" : "POST" ;
         const URL= !isEdit? "http://localhost:5001/host/create" :`http://localhost:5001/host/edit/${blogDataNew._id}`;
         const fetchCreateBlog = async () => {
             try {
                 const response = await fetch(URL, {
                     method,
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
                     credentials: "include",
-                    body: JSON.stringify(blogData)
+                    body: formData
                 });
                 const data= await response.json();
                 if (response.ok) {
@@ -55,7 +53,6 @@ function CreatedBlog() {
         <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                    {/* Header */}
                     <div className="px-6 py-8 bg-indigo-600 sm:p-10">
                         <h1 className="text-3xl font-extrabold text-white text-center">
                             {!isEdit ? "Create New Blog" : "Edit Blog"}
@@ -67,10 +64,8 @@ function CreatedBlog() {
                             }
                         </p>
                     </div>
-
-                    {/* Form */}
                     <form onSubmit={handleCreateBlog} className="px-6 py-8 sm:p-10 space-y-6">
-                        {/* Title Input */}
+                        
                         <div>
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
                                 Blog Title
@@ -86,8 +81,6 @@ function CreatedBlog() {
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-500 transition-colors duration-200"
                             />
                         </div>
-
-                        {/* Content Textarea */}
                         <div>
                             <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
                                 Blog Content
@@ -104,12 +97,10 @@ function CreatedBlog() {
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-500 transition-colors duration-200"
                                 ></textarea>
                             </div>
-                            <p className="mt-2 text-sm text-gray-500">
-                                Use markdown for formatting. Support for images coming soon!
-                            </p>
+                            <div>
+                                <input type="file" name="profilename" onChange={(e)=>setFile(e.target.value)} />
+                            </div>
                         </div>
-
-                        {/* Action Buttons */}
                         <div className="flex items-center justify-end space-x-4 pt-6">
                             <button
                                 type="button"
@@ -125,8 +116,6 @@ function CreatedBlog() {
                                 {isEdit ? "Save Changes" : "Publish Blog"}
                             </button>
                         </div>
-
-                        {/* Tips Section */}
                         <div className="mt-8 bg-indigo-50 rounded-lg p-4">
                             <h3 className="text-sm font-medium text-indigo-800">Writing Tips:</h3>
                             <ul className="mt-2 text-sm text-indigo-700 space-y-1">
