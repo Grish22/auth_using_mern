@@ -14,14 +14,17 @@ app.use(cors({
     origin: 'http://localhost:5173', // your frontend URL
     credentials: true
 }));
+
 // Parse JSON bodies
 app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
 const MONGO_DB_URL="mongodb+srv://grishjindal22:TigerHill@cluster0.t52zxt9.mongodb.net/chatapp?retryWrites=true&w=majority";
-app.use(express.urlencoded( { extended: true }));
+
 const store = new MongoDBStore({
     uri: MONGO_DB_URL,
     collection: "sessions"
 })
+
 app.use(session({
     secret:"By Grish",
     resave: false,
@@ -30,11 +33,13 @@ app.use(session({
     name: 'sessionId', // custom name for the session ID
     proxy: true // if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 }))
-app.use(express.json());
-app.use('/auth',authRouter);
-app.use('/user', userRouter);
+
+app.use('/auth',express.json(),express.urlencoded( { extended: true }),authRouter);
+app.use('/user',express.json(),express.urlencoded( { extended: true }) ,  userRouter);
 app.use('/host', hostRouter);
+
 const PORT = 5001;
+
 mongoose.connect(MONGO_DB_URL).then(() => {
   console.log('Connected to Mongo');
   app.listen(PORT, () => {

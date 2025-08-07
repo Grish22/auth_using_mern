@@ -1,22 +1,20 @@
 const mongoose = require('mongoose');
-const reactionSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     blogId:{
         type:String,
-        required:true,
+        required:false,
     },
-    likes:{
-        type:String,
-        required:true,
-    },
-    dislikes:{
-        type:String,
-        required:true,
-    },
-    comments:{
-        type:String,
-        required:true,
-    }
+    comments:[{
+        userid:{
+            type:String,
+            required:true,
+        },
+        com_Add:[{
+            type:String,
+            required:true
+        }]
+    }]
 
 }
 );
-module.exports = mongoose.model('Reaction', reactionSchema);
+module.exports = mongoose.model('Comment', commentSchema);

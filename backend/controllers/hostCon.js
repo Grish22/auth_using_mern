@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const View=require ('../models/view');
 const Blog = require('../models/blog');
 exports.getAllblog = async (req, res) => {
     const Id = req.params.id;
@@ -19,11 +19,14 @@ exports.getAllblog = async (req, res) => {
 
 exports.createBlog = async (req, res) => {
     const { title, content, author } = req.body;
+    const {filename,path} = req.file;
     console.log(title,content,author)
     const newBlog = new Blog({
         title,
         content,
-        author
+        author,
+        filename,
+        path
     });
     await newBlog.save()
         .then(blog => {
@@ -58,8 +61,9 @@ exports.deleteBlog= async(req,res)=>{
 exports.editBlog=async(req,res)=>{
     const ID = req.params.id;
     const {title,content,author} = req.body;
+    const {filename,path}=req.file;
     console.log("editblog : ",title,content,author,ID)
-     await Blog.findByIdAndUpdate(ID,{title,content,author})
+     await Blog.findByIdAndUpdate(ID,{title,content,author,path,filename})
      .then(()=>{
         res.status(200).json({
             message: "Blog udpated successfully"

@@ -3,5 +3,10 @@ const userRouter = express.Router();
 const Controllers = require('../controllers/userCon');
 userRouter.get('/all', Controllers.getAllblog);
 userRouter.get('/all/:id',Controllers.getContent);
-
+userRouter.post('/views/:id',Controllers.updatedview);
+userRouter.get('/views/:id',Controllers.getView);
+userRouter.post('/comment/:id',Controllers.postAction);
+userRouter.get('/comment/:id',Controllers.getAction);
+userRouter.post('/addcomment/:id',Controllers.addComment);
+userRouter.get('/addcomment/:id',Controllers.getComment);
 module.exports = userRouter;
