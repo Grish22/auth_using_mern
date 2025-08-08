@@ -10,6 +10,7 @@ function CreatedBlog() {
     const blogDataNew = location.state?.blogData || null;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [file,setFile]= useState("");
     useEffect(() => {
     if (isEdit && blogDataNew!=null) {
       setTitle(blogDataNew.title);
@@ -21,22 +22,24 @@ function CreatedBlog() {
 
     const handleCreateBlog = (event) => {
         event.preventDefault();
-        const blogData = {
-            title: title,
-            content: content,
-            author:user.id
-        };
+        const formData=new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('author', user.id);
+        formData.append('file', file);
+        // const blogData = {
+        //     title: title,
+        //     content: content,
+        //     author:user.id
+        // };
         const method= isEdit? "PUT" : "POST" ;
         const URL= !isEdit? "http://localhost:5001/host/create" :`http://localhost:5001/host/edit/${blogDataNew._id}`;
         const fetchCreateBlog = async () => {
             try {
                 const response = await fetch(URL, {
                     method,
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
                     credentials: "include",
-                    body: JSON.stringify(blogData)
+                    body: formData
                 });
                 const data= await response.json();
                 if (response.ok) {
@@ -109,7 +112,12 @@ function CreatedBlog() {
                             </p>
                         </div>
 
-                        {/* Action Buttons */}
+                        {/*Upload file*/}
+                        <div>
+                            <input type="file" name="file" onChange={ (e)=>setFile(e.target.files[0]) } required />
+                        </div>
+
+                        {/*button*/}
                         <div className="flex items-center justify-end space-x-4 pt-6">
                             <button
                                 type="button"

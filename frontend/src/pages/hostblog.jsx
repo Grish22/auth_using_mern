@@ -6,6 +6,8 @@ import UseContext from "../context/usercontest";
 
 function Hostblog() {
     const [Blogdata, setBlogData] = useState([]);
+    const [view,setView] = useState({});
+    const [selectedBlogId, setSelectedBlogId] = useState(null);
     const {user}=UseContext();
     const navigate=useNavigate();
     useEffect(() => {
@@ -29,6 +31,32 @@ function Hostblog() {
         };
         fetchBlog();
     }, []);
+    const getview= async (blogid) =>{
+        const fetchdata=async()=>{
+            try{
+                const response=await fetch(`http://localhost:5001/user/views/${blogid}`);
+                const data = await response.json();
+                if(response){
+                    console.log(blogid,data.view);
+                    setView(prev=> ({...prev,[blogid]:data.view}));
+                }
+                else{
+                    alert("No view");
+                }
+                
+            }
+            catch(err){
+                console.log(err);
+                alert("No view");
+            }
+        }
+        fetchdata();
+    };
+    useEffect(()=>{
+        Blogdata.map((blog)=>{
+            getview(blog._id);
+        })
+    },[Blogdata])
     const handleEdit=  (blog)=>{
         navigate('/host/create',
         {
@@ -79,11 +107,10 @@ function Hostblog() {
                             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
                         >
                             {/* Blog Preview Image */}
-                            <div className="h-48 bg-indigo-100 overflow-hidden">
+                            <div className="w-full h-48 overflow-hidden rounded-t-xl">
                                 <img 
-                                    src={blog.image || 'https://via.placeholder.com/400x200'} 
-                                    alt={blog.title}
-                                    className="w-full h-full object-cover"
+                                    src={`http://localhost:5001/${encodeURI(blog.path.replace("\\", "/"))}`} 
+                                    className="w-full h-full object-contain"
                                 />
                             </div>
 
@@ -94,12 +121,15 @@ function Hostblog() {
                                 
                                 {/* Blog Stats */}
                                 <div className="flex items-center text-sm text-gray-500 mb-4">
-                                    <span className="flex items-center">
+                                    <span className="flex items-center" >
+
                                         <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
-                                        {blog.views || 0} views
+                                        
+
+                                        {view[blog._id] || 0 } views
                                     </span>
                                     <span className="mx-2">•</span>
                                     <span>{new Date(blog.createdAt).toLocaleDateString()}</span>

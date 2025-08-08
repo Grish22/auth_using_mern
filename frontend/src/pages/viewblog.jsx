@@ -7,6 +7,7 @@ import UseContext from "../context/usercontest";
 function Viewblog () {
     const [Blogdata, setBlogData] = useState([]);
     const navigate=useNavigate();
+    const {user}=UseContext();
     useEffect(() => {
         const fetchBlog = async () => {
             try {
@@ -18,6 +19,7 @@ function Viewblog () {
                     const blogData = await response.json();
                     console.log("Blog data fetched successfully:", blogData);
                     setBlogData(blogData.blogs);
+                    console.log(blogData.blogs);
                 } else {
                     alert("Failed to fetch blog.");
                 }
@@ -28,6 +30,29 @@ function Viewblog () {
         fetchBlog();
     }, []);
     const handleDescription=(blogid)=>{
+        const fetchData = async()=>{
+            try{
+                console.log(user.id);
+               const response= await fetch(`http://localhost:5001/user/views/${blogid}`,{
+                   method:'POST',
+                   headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body:JSON.stringify({userid:user.id})
+               });
+               if(response.ok){
+                    console.log("OKAY");
+               }
+               else{
+                   console.log("Your view is not considered");
+               }
+            }
+            catch(error){
+                console.log("Your view is not considered");
+            }
+        }
+
+        fetchData();
         navigate(`/user/all/${blogid}`,{
             state:{
                 blogId:blogid
@@ -53,8 +78,7 @@ function Viewblog () {
                             {/* Blog Image */}
                             <div className="h-48 bg-indigo-100 overflow-hidden">
                                 <img 
-                                    src={blog.image || 'https://via.placeholder.com/400x200'} 
-                                    alt={blog.title}
+                                    src={`http://localhost:5001/${encodeURI(blog.path.replace("\\", "/"))}`} 
                                     className="w-full h-full object-cover"
                                 />
                             </div>
@@ -72,11 +96,13 @@ function Viewblog () {
                                     <div className="flex items-center">
                                         <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
                                             <span className="text-indigo-600 font-semibold">
-                                                {blog.author?.firstName?.[0] || 'A'}
+
+                                                {blog.author?.firstName?.[0] || 'A' }
                                             </span>
                                         </div>
                                         <span className="ml-2 text-sm text-gray-600">
-                                            {blog.author?.firstName || 'Anonymous'}
+                                            {blog.author?.firstName || 'Anonymous' }
+
                                         </span>
                                     </div>
                                     <button 
@@ -84,9 +110,6 @@ function Viewblog () {
                                         className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md transition-colors duration-150 ease-in-out"
                                     >
                                         Read More
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                        </svg>
                                     </button>
                                 </div>
                             </div>
