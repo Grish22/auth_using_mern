@@ -179,7 +179,6 @@ function Description (){
             </svg>
         </button>
         </div>
-
         <button className="w-full text-center text-sm text-indigo-600 hover:text-indigo-500 font-medium mb-6"
                 onClick={()=>setViewcomemnt((prev)=>(!prev))}
         >
@@ -200,7 +199,6 @@ function Description (){
         </div>
         }
         </div>
-        
 
     </>
     )

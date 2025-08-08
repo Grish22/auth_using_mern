@@ -96,11 +96,13 @@ function Viewblog () {
                                     <div className="flex items-center">
                                         <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
                                             <span className="text-indigo-600 font-semibold">
+
                                                 {blog.author?.firstName?.[0] || 'A' }
                                             </span>
                                         </div>
                                         <span className="ml-2 text-sm text-gray-600">
                                             {blog.author?.firstName || 'Anonymous' }
+
                                         </span>
                                     </div>
                                     <button 
