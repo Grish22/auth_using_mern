@@ -34,9 +34,11 @@ app.use(session({
     proxy: true // if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 }))
 
+
 app.use('/auth',express.json(),express.urlencoded( { extended: true }),authRouter);
 app.use('/user',express.json(),express.urlencoded( { extended: true }) ,  userRouter);
 app.use('/host', hostRouter);
+
 
 const PORT = 5001;
 

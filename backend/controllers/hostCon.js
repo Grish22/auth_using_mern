@@ -1,4 +1,6 @@
+
 const View=require ('../models/view');
+
 const Blog = require('../models/blog');
 exports.getAllblog = async (req, res) => {
     const Id = req.params.id;
@@ -64,6 +66,7 @@ exports.editBlog=async(req,res)=>{
     const {filename,path}=req.file;
     console.log("editblog : ",title,content,author,ID)
      await Blog.findByIdAndUpdate(ID,{title,content,author,path,filename})
+
      .then(()=>{
         res.status(200).json({
             message: "Blog udpated successfully"
