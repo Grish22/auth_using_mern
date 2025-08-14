@@ -2,11 +2,8 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 exports.postLogin = async(req, res) => {
-    console.log("login request received");
     const {email, password} = req.body;
-    console.log("email",email)
     const user=await User.findOne({email:email});
-    console.log("user",user)
      if(!user){
         return res.status(422).json({
             message: "User not found",})
