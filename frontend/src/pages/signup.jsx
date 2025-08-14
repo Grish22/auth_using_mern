@@ -50,10 +50,9 @@ function Signup() {
         fetchSignup();
     };
     return (
-        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-            <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-                <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <div className="bg-gray-100 py-26 flex flex-col justify-start sm:py-24">
+            <div className="relative py-3 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto px-4">
+                <div className="relative px-6 py-8 bg-white shadow-lg rounded-xl sm:rounded-2xl sm:px-10 sm:py-10">
                     <div className="max-w-md mx-auto">
                         <div className="divide-y divide-gray-200">
                             <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">

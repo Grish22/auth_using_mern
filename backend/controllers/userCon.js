@@ -161,15 +161,24 @@ exports.postAction=async(req,res)=>{
 
 exports.getAction=async(req,res)=>{
     const  id=req.params.id;
+    const userid = req.query.userId;
+    console.log("yes: ",userid);
     console.log("id : ",id)
     try{
         const data = await Reaction.findOne({blogId:id});
+        let status=null;
         console.log("data : ",data )
         if(data){
+            for (let obj of data.user){
+                if(obj.userId==userid){
+                    status=obj.reaction;
+                }
+            }
             return res.status(201).json({
                 
                 like:data.like,
-                dislike:data.dislike
+                dislike:data.dislike,
+                status:status
             })
         }
         else{
