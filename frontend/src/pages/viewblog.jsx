@@ -76,10 +76,10 @@ function Viewblog () {
                             className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
                         >
                             {/* Blog Image */}
-                            <div className="h-48 bg-indigo-100 overflow-hidden">
+                            <div className="w-full h-48 overflow-hidden rounded-t-xln">
                                 <img 
                                     src={`http://localhost:5001/${encodeURI(blog.path.replace("\\", "/"))}`} 
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                 />
                             </div>
                             
