@@ -3,7 +3,8 @@ import {useEffect} from "react";
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
 import UseContext from "../context/usercontest";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Hostblog() {
     const [Blogdata, setBlogData] = useState([]);
     const [view,setView] = useState({});
@@ -23,10 +24,10 @@ function Hostblog() {
                     console.log("Blog data fetched successfully:", blogData);
                     setBlogData(blogData.blogs);
                 } else {
-                    alert("Failed to fetch blog.");
+                    toast.success("Failed to fetch blog.");
                 }
             } catch (error) {
-                alert("Error fetching blog: " + error.message);
+                toast.success("Error fetching blog: " + error.message);
             }
         };
         fetchBlog();
@@ -41,13 +42,13 @@ function Hostblog() {
                     setView(prev=> ({...prev,[blogid]:data.view}));
                 }
                 else{
-                    alert("No view");
+                    toast.success("No view");
                 }
                 
             }
             catch(err){
                 console.log(err);
-                alert("No view");
+                toast.success("No view");
             }
         }
         fetchdata();
@@ -76,7 +77,7 @@ function Hostblog() {
                 });
                 if(response.ok){
                     setBlogData(Blogdata.filter(blog=>blog._id!= blogId));
-                    alert("Blog deleted successfully!");
+                    toast.success("Blog deleted successfully!");
                 }
             }
         fetchData();

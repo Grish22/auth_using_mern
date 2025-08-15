@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UseContext from "../context/usercontest";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function CreatedBlog() {
     const location = useLocation();
     const isEdit = location.state?.isEdit || false;
@@ -43,13 +45,13 @@ function CreatedBlog() {
                 });
                 const data= await response.json();
                 if (response.ok) {
-                    alert(data.message);
+                    toast.success(data.message);
                     navigate("/host/all");
                 } else {
-                    alert("Failed to create blog.");
+                    toast.success("Failed to create blog.");
                 }
             } catch (error) {
-                alert( error.message);
+                toast.success( error.message);
             }
         };
         fetchCreateBlog();

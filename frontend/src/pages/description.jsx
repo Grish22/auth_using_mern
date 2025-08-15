@@ -2,6 +2,8 @@ import react from 'react';
 import {useLocation } from 'react-router-dom'
 import { useEffect,useState  } from 'react';
 import UseContext from "../context/usercontest";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Description (){
     const location =useLocation();
     const {user} = UseContext();
@@ -28,7 +30,7 @@ function Description (){
                 }
                 }
                 catch (errors){
-                    alert("error occcured");
+                    toast.success("error occcured");
                     console.log(errors)
                 }
             }
@@ -54,7 +56,7 @@ function Description (){
                 }
                 }
                 catch (errors){
-                    alert("error occcured");
+                    toast.success("error occcured");
                     console.log(errors)
                 }
             }
@@ -87,7 +89,7 @@ function Description (){
                 }
                 }
                 catch (errors){
-                    alert("error occcured");
+                    toast.success("error occcured");
                     console.log(errors)
                 }
             }
@@ -148,7 +150,7 @@ function Description (){
                     console.log(commentdata);
                 }
                 else{
-                    alert("error occur ")
+                    toast.success("error occur ")
                 }
             }
             fetchdata();
