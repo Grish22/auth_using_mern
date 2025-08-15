@@ -137,8 +137,15 @@ function Description (){
                 })
                 const data = await response.json();
                 if(response.ok){
-                    console.log(data.data);
-                    setCommentdata(data.data);
+                    console.log("commentdata: ",data);
+                    if(data.data=="No comment found"){
+                        setCommentdata(null);
+                    }
+                    else{
+                        setCommentdata(data.data);
+                    }
+                    
+                    console.log(commentdata);
                 }
                 else{
                     alert("error occur ")
