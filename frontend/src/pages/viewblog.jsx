@@ -3,7 +3,8 @@ import {useEffect} from "react";
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
 import UseContext from "../context/usercontest";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Viewblog () {
     const [Blogdata, setBlogData] = useState([]);
     const navigate=useNavigate();
@@ -21,10 +22,10 @@ function Viewblog () {
                     setBlogData(blogData.blogs);
                     console.log(blogData.blogs);
                 } else {
-                    alert("Failed to fetch blog.");
+                    toast.success("Failed to fetch blog.");
                 }
             } catch (error) {
-                alert("Error fetching blog: " + error.message);
+                toast.success("Error fetching blog: " + error.message);
             }
         };
         fetchBlog();

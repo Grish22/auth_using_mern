@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import UseContext from "../context/usercontest";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Header() {
     const { user,isLoggedIn, setUserfunc, setIsLoggedInfunc } = UseContext();
     const navigate = useNavigate();
@@ -17,17 +19,17 @@ function Header() {
                     credentials: "include"
                 });
                 if (response.ok) {
-                    alert("Logout successful!");
+                    toast.success("Logout successful!");
                     localStorage.removeItem('user');
                     localStorage.removeItem('isLoggedIn');
                     setUserfunc(null);
                     setIsLoggedInfunc(false);
                     navigate("/login");
                 } else {
-                    alert("Logout failed.");
+                    toast.success("Logout failed.");
                 }
             } catch (error) {
-                alert("Error during logout: " + error.message);
+                toast.success("Error during logout: " + error.message);
             }
         };
         fetchLogout();

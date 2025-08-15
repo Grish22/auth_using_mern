@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from 'react';
 import UseContext from "../context/usercontest.jsx";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Signup() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -32,7 +34,7 @@ function Signup() {
                 });
                 const result = await response.json();
                 if (response.ok) {
-                    alert(result.message);
+                    toast.success(result.message);
                     console.log("User created:", result.user);
                     localStorage.setItem('user', JSON.stringify(result.user));
                     setUserfunc(result.user);
@@ -40,11 +42,11 @@ function Signup() {
                 }
                 else {
                     console.log(result);
-                    alert("Signup failed: " + result.message.join(", "));
+                    toast.success("Signup failed: " + result.message.join(", "));
                 }
                 console.log(result);
             } catch (error) {
-                alert("Error during signup: " + error.message);
+                toast.success("Error during signup: " + error.message);
             }
         };
         fetchSignup();

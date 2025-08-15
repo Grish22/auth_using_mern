@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import UseContext from "../context/usercontest.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -23,14 +25,14 @@ function Login() {
         });
         const data = await response.json();
         if (response.ok) {
-          alert("Login successful!");
+          toast.success("Login successful!");
           localStorage.setItem('user', JSON.stringify(data.user));
           localStorage.setItem('isLoggedIn', 'true');
           setUserfunc(data.user);
           setIsLoggedInfunc(true);
           navigate('/');
         } else {
-          alert("Login failed: " + data.message);
+          toast.success("Login failed: " + data.message);
           setIsLoggedInfunc(false);
           if (data.message === "User not found") {
             navigate("/signup");
