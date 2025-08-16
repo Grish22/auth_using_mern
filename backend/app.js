@@ -11,9 +11,10 @@ const MongoDBStore=require("connect-mongodb-session")(session);
 
 // Enable CORS with credentials
 app.use(cors({
-    origin: 'http://localhost:5173', // your frontend URL
+    origin: [ "http://localhost:5173", "https://adorable-madeleine-57d55d.netlify.app" ],
     credentials: true
 }));
+
 
 // Parse JSON bodies
 app.use(bodyParser.json());
@@ -39,8 +40,7 @@ app.use('/auth',express.json(),express.urlencoded( { extended: true }),authRoute
 app.use('/user',express.json(),express.urlencoded( { extended: true }) ,  userRouter);
 app.use('/host', hostRouter);
 
-
-const PORT = 5001;
+ const PORT = process.env.PORT || 5001;;
 
 mongoose.connect(MONGO_DB_URL).then(() => {
   console.log('Connected to Mongo');
